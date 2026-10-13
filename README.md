@@ -34,9 +34,14 @@ The raw file is not included (3.25 GB). This analysis uses a **random sample of 
 - Value per conversion and cost per exposure are **assumptions**, not data.
 - Analysis uses a sample, not the full 14M rows.
 
+## Workflow note
+I used an AI assistant (Claude) to help plan the project and draft the analysis script. I ran everything locally on the real data, debugged errors, and reviewed the outputs, including the covariate-imbalance finding and why the unadjusted and adjusted estimates differ. Because the code was AI-assisted, I added an independent check (`validate.py`, output in `validate_output.txt`): it recomputes the conversion/visit lifts by plain aggregation on the full ~14M-row file and on the random sample under 5 different seeds, without the statistical libraries used in the main script.
+
 ## Run it
 ```
 pip install pandas numpy scipy statsmodels scikit-learn xgboost matplotlib
 python criteo_ab_project.py criteo-uplift-v2.1.csv
 ```
 Outputs are printed to the terminal; the Qini plot is saved to `figs/qini.png`. Full output from my run is in `results.txt`.
+
+Independent check: `python validate.py criteo-uplift-v2.1.csv`

@@ -1,0 +1,10 @@
+
+=== Independent recomputation (plain aggregation) ===
+FULL DATA      n=13,979,592  treated share=0.8500  conv 0.1938% -> 0.3089%  rel lift= 59.4%  (abs lift 95% CI 0.1085% to 0.1219%)  visit rel lift=27.1%
+sample seed 0  n= 2,096,939  treated share=0.8498  conv 0.1946% -> 0.3116%  rel lift= 60.1%  (abs lift 95% CI 0.0995% to 0.1344%)  visit rel lift=27.6%
+sample seed 1  n= 2,096,939  treated share=0.8500  conv 0.2082% -> 0.3086%  rel lift= 48.2%  (abs lift 95% CI 0.0825% to 0.1183%)  visit rel lift=26.0%
+sample seed 2  n= 2,096,939  treated share=0.8500  conv 0.1942% -> 0.3103%  rel lift= 59.7%  (abs lift 95% CI 0.0986% to 0.1335%)  visit rel lift=27.8%
+sample seed 3  n= 2,096,939  treated share=0.8498  conv 0.2048% -> 0.3131%  rel lift= 52.9%  (abs lift 95% CI 0.0905% to 0.1261%)  visit rel lift=26.4%
+sample seed 4  n= 2,096,939  treated share=0.8499  conv 0.1947% -> 0.3092%  rel lift= 58.8%  (abs lift 95% CI 0.0971% to 0.1319%)  visit rel lift=27.2%
+
+Check: seed 0 should match the main analysis (n=2,096,939; conv 0.1946% -> 0.3116%; ~60.1% lift).
