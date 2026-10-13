@@ -19,6 +19,7 @@ The raw file is not included (3.25 GB). This analysis uses a **random sample of 
 | Sample | 2,096,939 users (1,781,973 treated / 314,966 control) |
 | SRM check (vs 85/15) | p = 0.41, passed |
 | Conversion | 0.195% (control) → 0.312% (treated); relative lift **60.1%**, bootstrap 95% CI 48.0%–74.4%, p ≈ 5e-29 |
+| Full-data check (13.98M rows, `validate.py`) | Conversion 0.194% → 0.309%, relative lift **59.4%**; visit lift 27.1% |
 | Visit | 3.79% → 4.83%; relative lift **27.6%**, 95% CI 25.2%–30.0% |
 | Covariate balance | max SMD = 0.050 (f3), below the 0.1 rule of thumb but larger than expected under pure randomization |
 | Regression-adjusted conversion lift | **~42.8%** (CI ~5.7% narrower) |
@@ -32,7 +33,7 @@ The raw file is not included (3.25 GB). This analysis uses a **random sample of 
 - The dataset combines several incrementality tests; test identity is not available, so heterogeneity across tests is not modeled.
 - Top-k uplift estimates are noisy because conversions are rare (~0.2%). The best-k in the simulation is chosen on the same held-out set, so it is optimistic; the fixed top-20% figure is more reliable.
 - Value per conversion and cost per exposure are **assumptions**, not data.
-- Analysis uses a sample, not the full 14M rows.
+- The main analysis (including regression adjustment and the uplift model) uses a ~2.1M-row sample. `validate.py` replicated the unadjusted lift on the full 13,979,592 rows (conversion 0.194% → 0.309%, relative lift 59.4%) and across 5 sampling seeds (relative lift 48%–60%, consistent with the bootstrap CI). It does not re-check the adjusted estimate or the uplift model.
 
 ## Workflow note
 I used an AI assistant (Claude) to help plan the project and draft the analysis script. I ran everything locally on the real data, debugged errors, and reviewed the outputs, including the covariate-imbalance finding and why the unadjusted and adjusted estimates differ. Because the code was AI-assisted, I added an independent check (`validate.py`, output in `validate_output.txt`): it recomputes the conversion/visit lifts by plain aggregation on the full ~14M-row file and on the random sample under 5 different seeds, without the statistical libraries used in the main script.
