@@ -1,0 +1,44 @@
+rows: 2096939
+          f0         f1        f2  ...  conversion  visit  exposure
+0  22.398786  10.059654  8.214383  ...           0      0         0
+1  12.616365  10.059654  8.632691  ...           0      1         0
+2  12.616365  10.059654  9.025782  ...           0      0         0
+
+[3 rows x 16 columns]
+
+=== 1. Health checks ===
+treated=1,781,973 control=314,966 ratio=0.8498
+SRM chi2 p-value vs 85/15: 0.4109  (small p => investigate; huge N makes tiny deviations 'significant')
+max |SMD|: 0.0498 (<0.1 is balanced)
+most imbalanced features: {'f3': 0.0498, 'f6': 0.0418, 'f5': 0.0318}
+baseline conversion (control): 0.19462%
+  detect 5% relative lift -> need ~1,941,541 control users (ratio 5.7:1)
+  detect 10% relative lift -> need ~496,992 control users (ratio 5.7:1)
+  detect 20% relative lift -> need ~129,956 control users (ratio 5.7:1)
+
+=== 2. Effect estimation ===
+conversion: treat=0.3116% ctrl=0.1946% abs lift=0.1169% rel lift=60.1% 95%CI abs=(0.0995%,0.1344%) p=5.45e-29
+   bootstrap rel-lift 95% CI: (48.0%, 74.4%)
+visit: treat=4.8318% ctrl=3.7877% abs lift=1.0441% rel lift=27.6% 95%CI abs=(0.9704%,1.1179%) p=2.04e-144
+   bootstrap rel-lift 95% CI: (25.2%, 30.0%)
+Holm-adjusted p: {'conversion': np.float64(5.447595972308383e-29), 'visit': np.float64(4.08057661557208e-144)}
+
+=== 3. Regression adjustment ===
+ATE unadjusted=0.00116  CI width=0.00036
+ATE adjusted  =0.00083  CI width=0.00034  -> 5.7% narrower
+adjusted relative lift vs control baseline: 42.8%
+(Note: this is covariate/regression adjustment, not CUPED -- no pre-period outcome.)
+
+=== 4. Uplift modeling (T-learner, XGBoost) ===
+Qini area vs random (higher=better): 229.4
+
+=== 5. Targeting policy simulation ===
+Treat everyone: incremental conv=791, profit=$23,533
+Best policy: treat top 20% -> captures 88% of incremental conv, profit=$31,504 (vs $23,533 blanket)
+  top 10%: captures 74% of incremental conversions
+  top 20%: captures 87% of incremental conversions
+  top 30%: captures 87% of incremental conversions
+  top 50%: captures 87% of incremental conversions
+NOTE: top-k estimates are noisy at small k; value/cost are assumptions.
+
+Done (step 6 skipped). Figures in ./figs.
